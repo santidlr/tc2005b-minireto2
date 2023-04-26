@@ -1,0 +1,15 @@
+{
+    "house1" : {
+        "name" : "Gryffindor",
+        "head" : "McGonagall",
+        "colors" : "Red and Yellow",
+        "id" : "1"
+    },
+    "house2" : {
+        "name" : "Slytherin",
+        "head" : "Slughorn",
+        "colors" : "Green and Silver",
+        "id" : "2"
+    }
+}
+  
