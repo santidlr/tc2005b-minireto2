@@ -1,11 +1,11 @@
 // server.index.js
 
-const path = require('path');
+const path = require("path");
 
 const express = require("express")
 const fs = require("fs")
 const bodyParser = require("body-parser")
-const mysql = require('mysql');
+const mysql = require("mysql");
 
 const PORT = process.env.PORT || 3001;
 const app = express();
