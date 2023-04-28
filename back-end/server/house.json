@@ -10,6 +10,12 @@
         "head" : "Slughorn",
         "colors" : "Green and Silver",
         "id" : "2"
+    },
+    "house3" : {
+        "name" : "Hufflepuff",
+        "head" : "Pomona Sprout",
+        "colors" : "Yellow and Black",
+        "id" : "3"
     }
 }
   
