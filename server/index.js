@@ -13,12 +13,22 @@ app.use(bodyParser.json());
 
 app.use(express.static(path.resolve(__dirname, '../client/build')));
 
-var connection = mysql.createConnection({
-    host: "localhost",
-    user: "apibasededatos",
-    password: "TC2005B-Web",
-    database: "empresanuevo"
-});
+if (process.env.DATABASE_URL) {// o puede ser CLEARDB_DATABASE_URL
+    var connection = mysql.createConnection({
+        host: "localhost",
+        user: "apibasededatos",
+        password: "TC2005B-Web",
+        database: "empresanuevo"
+    });
+} else {
+    var connection = mysql.createConnection({
+        host: "us-cdbr-east-06.cleardb.net",
+        user: "b5721249977246",
+        password: "70e7fc15",
+        database: "heroku_60419c2ecd0fdd3"
+    });
+}
+
 
 app.get("/api/hello", (req, res) => { // lo mismo que poner request, response
     res.json({ message: "Hello from the server siiiideeeee"});
