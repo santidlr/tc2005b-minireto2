@@ -54,10 +54,10 @@ app.post("/api/house", (req, res) => {
 app.get("/api/basededatos", (req, res) => { // lo mismo que poner request, response
     // connection.connect();
 
-    connection.query('SELECT * FROM EMPLOYEE', (err, results, fields) => {
+    connection.query('SELECT * FROM cliente', (err, results, fields) => {
         if (err) throw err;
         // console.log('The solution is: ', results[0].solution);
-        res.json({result: results[0].Emp_LName});
+        res.json({result: results[0].nombre_cliente});
         console.log(results)
     });
       
