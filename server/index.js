@@ -15,17 +15,17 @@ app.use(express.static(path.resolve(__dirname, '../client/build')));
 
 if (process.env.DATABASE_URL) {// o puede ser CLEARDB_DATABASE_URL
     var connection = mysql.createConnection({
-        host: "localhost",
-        user: "apibasededatos",
-        password: "TC2005B-Web",
-        database: "empresanuevo"
-    });
-} else {
-    var connection = mysql.createConnection({
         host: "us-cdbr-east-06.cleardb.net",
         user: "b5721249977246",
         password: "70e7fc15",
         database: "heroku_60419c2ecd0fdd3"
+    });
+} else { 
+    var connection = mysql.createConnection({
+        host: "localhost",
+        user: "apibasededatos",
+        password: "TC2005B-Web",
+        database: "empresanuevo"
     });
 }
 
