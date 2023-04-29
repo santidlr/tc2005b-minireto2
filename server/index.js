@@ -13,12 +13,22 @@ app.use(bodyParser.json());
 
 app.use(express.static(path.resolve(__dirname, '../client/build')));
 
-var connection = mysql.createConnection({
-    host: "localhost",
-    user: "apibasededatos",
-    password: "TC2005B-Web",
-    database: "empresanuevo"
-});
+if (process.env.DATABASE_URL) {// o puede ser CLEARDB_DATABASE_URL
+    var connection = mysql.createConnection({
+        host: "us-cdbr-east-06.cleardb.net",
+        user: "b5721249977246",
+        password: "70e7fc15",
+        database: "heroku_60419c2ecd0fdd3"
+    });
+} else { 
+    var connection = mysql.createConnection({
+        host: "localhost",
+        user: "apibasededatos",
+        password: "TC2005B-Web",
+        database: "empresanuevo"
+    });
+}
+
 
 app.get("/api/hello", (req, res) => { // lo mismo que poner request, response
     res.json({ message: "Hello from the server siiiideeeee"});
@@ -44,10 +54,10 @@ app.post("/api/house", (req, res) => {
 app.get("/api/basededatos", (req, res) => { // lo mismo que poner request, response
     // connection.connect();
 
-    connection.query('SELECT * FROM EMPLOYEE', (err, results, fields) => {
+    connection.query('SELECT * FROM cliente', (err, results, fields) => {
         if (err) throw err;
         // console.log('The solution is: ', results[0].solution);
-        res.json({result: results[0].Emp_LName});
+        res.json({result: results[0].nombre_cliente});
         console.log(results)
     });
       
