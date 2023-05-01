@@ -10,24 +10,40 @@ const mysql = require("mysql");
 const PORT = process.env.PORT || 3001;
 const app = express();
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded());
 
 app.use(express.static(path.resolve(__dirname, '../client/build')));
 
-if (process.env.DATABASE_URL) {// o puede ser CLEARDB_DATABASE_URL
-    var connection = mysql.createConnection({
+
+const connection = mysql.createPool({
+        connectionLimit: 10,
         host: "us-cdbr-east-06.cleardb.net",
         user: "b5721249977246",
         password: "70e7fc15",
         database: "heroku_60419c2ecd0fdd3"
+
+        
     });
-} else { 
-    var connection = mysql.createConnection({
-        host: "localhost",
-        user: "apibasededatos",
-        password: "TC2005B-Web",
-        database: "empresanuevo"
+    connection.getConnection((error, s)=>{
+        console.log(error);
     });
-}
+
+  
+
+ 
+
+    function db_query(query){
+        try{
+            return new Promise((resolve, reject) => {
+              connection.query(query, function (err, result) {
+                    if (err) throw err;
+                    resolve(Object.values(result));
+                });
+              });
+        }catch(except){}
+      }
+    
+
 
 
 app.get("/api/hello", (req, res) => { // lo mismo que poner request, response
@@ -51,18 +67,55 @@ app.post("/api/house", (req, res) => {
 
 //  ************** MySQL Connection ***************
 
-app.get("/api/basededatos", (req, res) => { // lo mismo que poner request, response
-    // connection.connect();
+deleteComentario = async (req, res)=>{
+    const {id} = req.params
+    const response = await db_query(`DELETE FROM comentarios WHERE id = ${id};`);
+    res.json(response);
+    res.end();
+}
 
-    connection.query('SELECT * FROM cliente', (err, results, fields) => {
-        if (err) throw err;
-        // console.log('The solution is: ', results[0].solution);
-        res.json({result: results[0].nombre_cliente});
-        console.log(results)
-    });
-      
-    // connection.end();
-});
+putQuote = async (req, res)=>{
+    const{id} = req.params
+    const {quoteCharacter} = req.body;
+    const response = await db_query(`UPDATE quotes SET quoteCharacter = "${quoteCharacter}" WHERE id= 4;`);
+    res.json(response);
+    res.end();
+}
+
+getPersonajes = async (req, res)=>{
+    const response = await db_query("SELECT * FROM personajes ");
+    res.json(response);
+    res.end();
+}
+
+
+getComentarios = async (req, res)=>{
+    const response = await db_query("SELECT * FROM comentarios ");
+    res.json(response);
+    res.end();
+}
+
+getQuote = async (req, res)=>{
+    const response = await db_query("SELECT * FROM quotes");
+    res.json(response[0]);
+    res.end();
+}
+
+postComentarios = async (req, res)=>{
+    const {comentario} = req.body;
+    const response = await db_query(`INSERT INTO comentarios(comentario) VALUES ("${comentario}")`);
+    res.json(response);
+    res.end();
+}
+
+
+
+app.delete("/api/deleteComentario/:id", deleteComentario);
+app.put("/api/Quote/", putQuote);
+app.get("/api/personajes", getPersonajes);
+app.get("/api/comentarios", getComentarios);
+app.get("/api/Quote", getQuote);
+app.post("/api/comentarios", postComentarios);
 
 //  ************** Peticiones get que no manejamos ***************
 
