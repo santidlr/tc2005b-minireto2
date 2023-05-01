@@ -14,8 +14,7 @@ app.use(bodyParser.urlencoded());
 
 app.use(express.static(path.resolve(__dirname, '../client/build')));
 
-if (process.env.DATABASE_URL) {// o puede ser CLEARDB_DATABASE_URL
-    const connection = mysql.createPool({
+const connection = mysql.createPool({
         connectionLimit: 10,
         host: "us-cdbr-east-06.cleardb.net",
         user: "b5721249977246",
@@ -27,16 +26,7 @@ if (process.env.DATABASE_URL) {// o puede ser CLEARDB_DATABASE_URL
     connection.getConnection((error, s)=>{
         console.log(error);
     });
-} else { 
-    const connection = mysql.createConnection({
-        host : "localhost",
-        user : "root",
-        password : "",
-        port : "3306",
-        database : "minireto"
-    });
 
-    
 
     function db_query(query){
         try{
@@ -49,7 +39,7 @@ if (process.env.DATABASE_URL) {// o puede ser CLEARDB_DATABASE_URL
         }catch(except){}
       }
     
-}
+
 
 
 app.get("/api/hello", (req, res) => { // lo mismo que poner request, response
