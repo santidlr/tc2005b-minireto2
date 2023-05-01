@@ -10,6 +10,7 @@ const mysql = require("mysql");
 const PORT = process.env.PORT || 3001;
 const app = express();
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded());
 
 app.use(express.static(path.resolve(__dirname, '../client/build')));
 
@@ -64,7 +65,20 @@ app.post("/api/house", (req, res) => {
 
 //  ************** MySQL Connection ***************
 
+deleteComentario = async (req, res)=>{
+    const {id} = req.params
+    const response = await db_query(`DELETE FROM comentarios WHERE id = ${id};`);
+    res.json(response);
+    res.end();
+}
 
+putQuote = async (req, res)=>{
+    const{id} = req.params
+    const {quote} = req.body;
+    const response = await db_query(`UPDATE quotes SET quote = "${quote}"WHERE id= ("${id}")`);
+    res.json(response);
+    res.end();
+}
 
 getPersonajes = async (req, res)=>{
     const response = await db_query("SELECT * FROM personajes ");
@@ -79,11 +93,27 @@ getComentarios = async (req, res)=>{
     res.end();
 }
 
+getQuote = async (req, res)=>{
+    const response = await db_query("SELECT * FROM quotes ");
+    res.json(response[0]);
+    res.end();
+}
+
+postComentarios = async (req, res)=>{
+    const {comentario} = req.body;
+    const response = await db_query(`INSERT INTO comentarios(comentario) VALUES ("${comentario}")`);
+    res.json(response);
+    res.end();
+}
 
 
 
+app.delete("/api/deleteComentario/:id", deleteComentario);
+app.put("/api/Quote/:id", putQuote);
 app.get("/api/personajes", getPersonajes);
 app.get("/api/comentarios", getComentarios);
+app.get("/api/Quote", getQuote);
+app.post("/api/comentarios", postComentarios);
 
 //  ************** Peticiones get que no manejamos ***************
 
