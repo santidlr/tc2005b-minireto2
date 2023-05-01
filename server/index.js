@@ -77,7 +77,7 @@ deleteComentario = async (req, res)=>{
 putQuote = async (req, res)=>{
     const{id} = req.params
     const {quoteCharacter} = req.body;
-    const response = await db_query(`UPDATE quotes SET quoteCharacter = "${quoteCharacter}" WHERE id= 1;`);
+    const response = await db_query(`UPDATE quotes SET quoteCharacter = "${quoteCharacter}" WHERE id= 4;`);
     res.json(response);
     res.end();
 }

@@ -21,9 +21,11 @@ export function Quote(){
 
     function handleSubmit(e){
         e.preventDefault();
-        axios.put(`/api/Quote/${dataTemp.id}` , data)
+        axios.put(`/api/Quote`, data).then((response) => {
+            console.log(response.status, response.data.token);
+          });
        }
-    
+       
 
 
 
@@ -39,11 +41,11 @@ export function Quote(){
     return(
         <div>
 
-                        <div>{dataTemp.quote}</div>
+                        <div>{dataTemp.quoteCharacter}</div>
                         <form onSubmit={(e)=> handleSubmit(e)}>
                                     <div>
                                             <input type="text"
-                                            id="quote"
+                                            id="quoteCharacter"
                                             value={data.quoteCharacter}
                                             placeholder="Edita Quote"
                                             onChange={e => handleButton(e)}
