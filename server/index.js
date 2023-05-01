@@ -14,6 +14,7 @@ app.use(bodyParser.urlencoded());
 
 app.use(express.static(path.resolve(__dirname, '../client/build')));
 
+
 const connection = mysql.createPool({
         connectionLimit: 10,
         host: "us-cdbr-east-06.cleardb.net",
@@ -27,6 +28,9 @@ const connection = mysql.createPool({
         console.log(error);
     });
 
+  
+
+ 
 
     function db_query(query){
         try{
@@ -72,8 +76,8 @@ deleteComentario = async (req, res)=>{
 
 putQuote = async (req, res)=>{
     const{id} = req.params
-    const {quote} = req.body;
-    const response = await db_query(`UPDATE quotes SET quote = "${quote}"WHERE id= ("${id}")`);
+    const {quoteCharacter} = req.body;
+    const response = await db_query(`UPDATE quotes SET quoteCharacter = "${quoteCharacter}" WHERE id= 1;`);
     res.json(response);
     res.end();
 }
@@ -92,7 +96,7 @@ getComentarios = async (req, res)=>{
 }
 
 getQuote = async (req, res)=>{
-    const response = await db_query("SELECT * FROM quotes ");
+    const response = await db_query("SELECT * FROM quotes");
     res.json(response[0]);
     res.end();
 }
@@ -107,7 +111,7 @@ postComentarios = async (req, res)=>{
 
 
 app.delete("/api/deleteComentario/:id", deleteComentario);
-app.put("/api/Quote/:id", putQuote);
+app.put("/api/Quote/", putQuote);
 app.get("/api/personajes", getPersonajes);
 app.get("/api/comentarios", getComentarios);
 app.get("/api/Quote", getQuote);
