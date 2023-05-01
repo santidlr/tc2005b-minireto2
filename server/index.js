@@ -7,7 +7,7 @@ const fs = require("fs")
 const bodyParser = require("body-parser")
 const mysql = require("mysql");
 
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 3000;
 const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded());
@@ -15,7 +15,8 @@ app.use(bodyParser.urlencoded());
 app.use(express.static(path.resolve(__dirname, '../client/build')));
 
 if (process.env.DATABASE_URL) {// o puede ser CLEARDB_DATABASE_URL
-    const connection = mysql.createConnection({
+    const connection = mysql.createPool({
+        connectionLimit: 10,
         host: "us-cdbr-east-06.cleardb.net",
         user: "b5721249977246",
         password: "70e7fc15",
