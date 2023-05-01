@@ -44,7 +44,7 @@ export function Quote(){
                                     <div>
                                             <input type="text"
                                             id="quote"
-                                            value={data.quote}
+                                            value={data.quoteCharacter}
                                             placeholder="Edita Quote"
                                             onChange={e => handleButton(e)}
                                             />
