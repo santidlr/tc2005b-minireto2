@@ -73,9 +73,17 @@ getPersonajes = async (req, res)=>{
 }
 
 
+getComentarios = async (req, res)=>{
+    const response = await db_query("SELECT * FROM comentarios ");
+    res.json(response);
+    res.end();
+}
+
+
 
 
 app.get("/api/personajes", getPersonajes);
+app.get("/api/comentarios", getComentarios);
 
 //  ************** Peticiones get que no manejamos ***************
 
