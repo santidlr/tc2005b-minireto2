@@ -23,9 +23,9 @@ if (process.env.DATABASE_URL) {// o puede ser CLEARDB_DATABASE_URL
 } else { 
     var connection = mysql.createConnection({
         host: "localhost",
-        user: "apibasededatos",
-        password: "TC2005B-Web",
-        database: "empresanuevo"
+        user: "root",
+        password: "",
+        database: "minireto"
     });
 }
 
@@ -51,18 +51,44 @@ app.post("/api/house", (req, res) => {
 
 //  ************** MySQL Connection ***************
 
-app.get("/api/basededatos", (req, res) => { // lo mismo que poner request, response
-    // connection.connect();
 
-    connection.query('SELECT * FROM cliente', (err, results, fields) => {
-        if (err) throw err;
-        // console.log('The solution is: ', results[0].solution);
-        res.json({result: results[0].nombre_cliente});
-        console.log(results)
-    });
-      
-    // connection.end();
+
+const database = mysql.createConnection({
+    host : "localhost",
+    user : "root",
+    password : "",
+    port : "3306",
+    database : "minireto"
+
+})
+
+database.connect((error, s)=>{
+    console.log(error);
 });
+
+function db_query(query){
+    try{
+        return new Promise((resolve, reject) => {
+          database.query(query, function (err, result) {
+                if (err) throw err;
+                resolve(Object.values(result));
+            });
+          });
+    }catch(except){}
+  }
+
+
+
+getPersonajes = async (req, res)=>{
+    const response = await db_query("SELECT * FROM personajes; ");
+    res.json(response);
+    res.end();
+}
+
+
+
+
+app.get("/api/personajes", getPersonajes);
 
 //  ************** Peticiones get que no manejamos ***************
 
