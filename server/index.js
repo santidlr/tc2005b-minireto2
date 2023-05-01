@@ -7,7 +7,7 @@ const fs = require("fs")
 const bodyParser = require("body-parser")
 const mysql = require("mysql");
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3001;
 const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded());
@@ -21,6 +21,11 @@ if (process.env.DATABASE_URL) {// o puede ser CLEARDB_DATABASE_URL
         user: "b5721249977246",
         password: "70e7fc15",
         database: "heroku_60419c2ecd0fdd3"
+
+        
+    });
+    connection.getConnection((error, s)=>{
+        console.log(error);
     });
 } else { 
     const connection = mysql.createConnection({
@@ -30,6 +35,8 @@ if (process.env.DATABASE_URL) {// o puede ser CLEARDB_DATABASE_URL
         port : "3306",
         database : "minireto"
     });
+
+    
 
     function db_query(query){
         try{
